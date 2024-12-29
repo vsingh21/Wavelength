@@ -204,95 +204,124 @@ const canvas = document.getElementById("semicircleCanvas");
     ['Evil people', 'Good people'],
     ['Jock', 'Nerd']];
 
-        function drawBoard() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    function drawBoard() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI);
+        ctx.fillStyle = "rgba(195,153,97,0.7)";
+        ctx.fill();
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    
+        for (let i = 0; i <= tickCount; i++) {
+            const angle = Math.PI + (i / tickCount) * Math.PI;
+            let currentTickLength = tickLength;
+    
+            if (i % 10 === 0) {
+                currentTickLength = longTickLength;
+            } else if (i % 5 === 0) {
+                currentTickLength = mediumTickLength;
+            }
+    
+            const startX = centerX + radius * Math.cos(angle);
+            const startY = centerY + radius * Math.sin(angle);
+            const endX = centerX + (radius - currentTickLength) * Math.cos(angle);
+            const endY = centerY + (radius - currentTickLength) * Math.sin(angle);
+    
             ctx.beginPath();
-            ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI);
-            ctx.fillStyle = "rgba(195,153,97,0.7)";
-            ctx.fill();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
             ctx.strokeStyle = "black";
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 1;
             ctx.stroke();
-
-            for (let i = 0; i <= tickCount; i++) {
-                const angle = Math.PI + (i / tickCount) * Math.PI;
-                let currentTickLength = tickLength;
-
-                if (i % 10 === 0) {
-                    currentTickLength = longTickLength;
-                } else if (i % 5 === 0) {
-                    currentTickLength = mediumTickLength;
-                }
-
-                const startX = centerX + radius * Math.cos(angle);
-                const startY = centerY + radius * Math.sin(angle);
-                const endX = centerX + (radius - currentTickLength) * Math.cos(angle);
-                const endY = centerY + (radius - currentTickLength) * Math.sin(angle);
-
-                ctx.beginPath();
-                ctx.moveTo(startX, startY);
-                ctx.lineTo(endX, endY);
-                ctx.strokeStyle = "black";
-                ctx.lineWidth = 1;
-                ctx.stroke();
-
-                if (i % 10 === 0) {
-                    const labelX = centerX + (radius - longTickLength - 20) * Math.cos(angle);
-                    const labelY = centerY + (radius - longTickLength - 20) * Math.sin(angle) - 7;
-
-                    ctx.font = "20px Arial";
-                    ctx.fillStyle = "black";
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
-                    ctx.fillText(i.toString(), labelX, labelY);
-                }
+    
+            if (i % 10 === 0) {
+                const labelX = centerX + (radius - longTickLength - 20) * Math.cos(angle);
+                const labelY = centerY + (radius - longTickLength - 20) * Math.sin(angle) - 7;
+    
+                ctx.font = "20px sans-serif"; // Changed to sans-serif
+                ctx.fillStyle = "black";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(i.toString(), labelX, labelY);
             }
-
-            const leftX = centerX - 10 + (radius + 40) * Math.cos(Math.PI);
-            const leftY = centerY + 20 + (radius + 40) * Math.sin(Math.PI);
-            const rightX = centerX + 10 + (radius + 40) * Math.cos(2 * Math.PI);
-            const rightY = centerY + 20 + (radius + 40) * Math.sin(2 * Math.PI);
-
-            const leftTextWidth = ctx.measureText(leftWord).width;
-            const leftBoxWidth = leftTextWidth + 20;
-            const leftBoxHeight = 30;
-            ctx.fillStyle = "rgba(195,153,97,0.7)";
-            ctx.fillRect(leftX - leftBoxWidth / 2, leftY - leftBoxHeight / 2, leftBoxWidth, leftBoxHeight);
-            ctx.strokeStyle = "black";
-            ctx.strokeRect(leftX - leftBoxWidth / 2, leftY - leftBoxHeight / 2, leftBoxWidth, leftBoxHeight);
-
-            ctx.font = "18px Arial";
+        }
+    
+        const leftX = centerX - 10 + (radius + 40) * Math.cos(Math.PI);
+        const leftY = centerY + 30 + (radius + 40) * Math.sin(Math.PI);
+        const rightX = centerX + 10 + (radius + 40) * Math.cos(2 * Math.PI);
+        const rightY = centerY + 30 + (radius + 40) * Math.sin(2 * Math.PI);
+    
+        // Left Label
+        const leftTextWidth = ctx.measureText(leftWord).width;
+        const leftBoxWidth = leftTextWidth + 60; // Increased padding for larger text
+        const leftBoxHeight = 40; // Increased height for larger text
+        ctx.fillStyle = "rgba(195,153,97,0.7)";
+        ctx.fillRect(leftX - leftBoxWidth / 2, leftY - leftBoxHeight / 2, leftBoxWidth, leftBoxHeight);
+        ctx.strokeStyle = "black";
+        ctx.strokeRect(leftX - leftBoxWidth / 2, leftY - leftBoxHeight / 2, leftBoxWidth, leftBoxHeight);
+    
+        ctx.font = "24px sans-serif"; // Larger and sans-serif font
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(leftWord, leftX, leftY);
+    
+        // Right Label
+        const rightTextWidth = ctx.measureText(rightWord).width;
+        const rightBoxWidth = rightTextWidth + 60; // Increased padding for larger text
+        const rightBoxHeight = 40; // Increased height for larger text
+        ctx.fillStyle = "rgba(195,153,97,0.7)";
+        ctx.fillRect(rightX - rightBoxWidth / 2, rightY - rightBoxHeight / 2, rightBoxWidth, rightBoxHeight);
+        ctx.strokeStyle = "black";
+        ctx.strokeRect(rightX - rightBoxWidth / 2, rightY - rightBoxHeight / 2, rightBoxWidth, rightBoxHeight);
+    
+        ctx.font = "24px sans-serif"; // Larger and sans-serif font
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(rightWord, rightX, rightY);
+    }
+    
+    function drawRange(start) {
+        drawBoard();
+        if (highlightVisible) {
+            draw(start, start + 4, "rgba(240,176,62, 0.5)");
+            draw(start + 4, start + 8, "rgba(235, 89, 41, 0.5)");
+            draw(start + 8, start + 12, "rgba(83, 136, 167, 0.5)");
+            draw(start + 12, start + 16, "rgba(235, 89, 41, 0.5)");
+            draw(start + 16, start + 20, "rgba(240,176,62, 0.5)");
+    
+            const textPositions = [
+                { angle: (start * 2 + 4) / 2, text: "2" },
+                { angle: (start * 2 + 12) / 2, text: "3" },
+                { angle: (start * 2 + 20) / 2, text: "4" },
+                { angle: (start * 2 + 28) / 2, text: "3" },
+                { angle: (start * 2 + 36) / 2, text: "2" }
+            ];
+    
+            ctx.font = "bold 24px sans-serif"; // Changed to sans-serif
             ctx.fillStyle = "black";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText(leftWord, leftX, leftY);
-
-            const rightTextWidth = ctx.measureText(rightWord).width;
-            const rightBoxWidth = rightTextWidth + 20;
-            const rightBoxHeight = 30;
-            ctx.fillStyle = "rgba(195,153,97,0.7)";
-            ctx.fillRect(rightX - rightBoxWidth / 2, rightY - rightBoxHeight / 2, rightBoxWidth, rightBoxHeight);
-            ctx.strokeStyle = "black";
-            ctx.strokeRect(rightX - rightBoxWidth / 2, rightY - rightBoxHeight / 2, rightBoxWidth, rightBoxHeight);
-
-            ctx.font = "18px Arial";
-            ctx.fillStyle = "black";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(rightWord, rightX, rightY);
+    
+            textPositions.forEach(({ angle, text }) => {
+                const radians = Math.PI + (angle / tickCount) * Math.PI;
+                const textRadius = radius - 65;
+                const textX = centerX + textRadius * Math.cos(radians);
+                const textY = centerY + textRadius * Math.sin(radians);
+    
+                ctx.save();
+                ctx.translate(textX, textY);
+                ctx.rotate(radians + Math.PI / 2);
+    
+                ctx.fillText(text, 0, 0);
+                ctx.restore();
+            });
         }
-
-        function drawRange(start) {
-            drawBoard();
-            if (highlightVisible) {
-                draw(start, start + 4, "rgba(240,176,62, 0.5)");
-                draw(start + 4, start + 8, "rgba(235, 89, 41, 0.5)");
-                draw(start + 8, start + 12, "rgba(83, 136, 167, 0.5)");
-                draw(start + 12, start + 16, "rgba(235, 89, 41, 0.5)");
-                draw(start + 16, start + 20, "rgba(240,176,62, 0.5)");
-            }
-        }
+    }
 
         function draw(start, end, color) {
             ctx.beginPath();

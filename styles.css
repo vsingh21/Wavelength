@@ -8,31 +8,34 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    font-size: 1.5em; /* Increase base font size */
 }
 
 #semicircleCanvas {
     display: block;
     margin: 0 auto;
+    width: 1500px; /* Increase width */
+    height: 600px; /* Increase height */
 }
 
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Space between buttons */
-    margin-top: 20px; /* Space between the canvas and buttons */
+    gap: 15px; 
+    margin-top: 30px;
 }
 
 button {
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 15px 30px; /* Bigger buttons */
+    font-size: 20px; /* Larger font */
     cursor: pointer;
     margin: 5px;
-    background-color: rgba(195,153,97,0.7); /* Matches semicircle background */
-    color: black; /* Text color for contrast */
-    border: 2px solid black; /* Border for definition */
-    border-radius: 5px; /* Optional: Makes the buttons rounded */
+    background-color: rgba(195,153,97,0.9); 
+    color: black;
+    border: 3px solid black; 
+    border-radius: 10px; 
 }
 
 button:hover {
-    background-color: rgba(195,153,97,1); /* Slightly darker on hover */
+    background-color: rgba(195,153,97,1); 
 }
