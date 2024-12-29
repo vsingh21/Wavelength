@@ -27,7 +27,8 @@ body {
 
 button {
     padding: 15px 30px; /* Bigger buttons */
-    font-size: 20px; /* Larger font */
+    font-size: 28px; /* Larger font */
+    font-family: sans-serif; /* Changed font to sans-serif */
     cursor: pointer;
     margin: 5px;
     background-color: rgba(195,153,97,0.9); 
